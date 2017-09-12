@@ -1,0 +1,73 @@
+<form>
+  <label>Threat Intelligence Search</label>
+  <fieldset autoRun="false" submitButton="true">
+    <input type="text" token="t_indicator" searchWhenChanged="true">
+      <label>Indicator</label>
+      <default>*</default>
+      <prefix>@indicator="</prefix>
+      <suffix>"</suffix>
+    </input>
+    <input type="dropdown" token="t_message" searchWhenChanged="true">
+      <label>Message</label>
+      <default>*</default>
+      <prefix>message="</prefix>
+      <suffix>"</suffix>
+      <choice value="*">All</choice>
+      <search>
+        <query>index=minemeld_ioc @indicator | stats count by message</query>
+      </search>
+      <fieldForLabel>message</fieldForLabel>
+      <fieldForValue>message</fieldForValue>
+    </input>
+    <input type="dropdown" token="t_type" searchWhenChanged="true">
+      <label>Type</label>
+      <default>*</default>
+      <prefix>type="</prefix>
+      <suffix>"</suffix>
+      <choice value="*">All</choice>
+      <search>
+        <query>index=minemeld_ioc @indicator | stats count by type</query>
+      </search>
+      <fieldForLabel>type</fieldForLabel>
+      <fieldForValue>type</fieldForValue>
+    </input>
+    <input type="dropdown" token="t_origin" searchWhenChanged="true">
+      <label>Origin</label>
+      <default>*</default>
+      <prefix>@origin="</prefix>
+      <suffix>"</suffix>
+      <choice value="*">All</choice>
+      <search>
+        <query>index=minemeld_ioc @indicator | stats count by @origin</query>
+      </search>
+      <fieldForLabel>@origin</fieldForLabel>
+      <fieldForValue>@origin</fieldForValue>
+    </input>  
+    <input type="time" searchWhenChanged="true">
+      <default>Last 24 hours</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search id="search_main">
+          <query>index=minemeld_ioc @indicator $t_indicator$ $t_message$ $t_type$ $t_origin$ | table @indicator, type, message, @origin, _time | sort - _time</query>
+        </search>
+        
+<!-- Uncomment if you have ForensicInvestigator app installed -->
+<!--        
+         <drilldown>
+           <link>/app/ForensicInvestigator/vtlookup?&amp;earliest=0&amp;latest=&amp;form.search_hash_url=$row.@indicator$</link>
+        </drilldown>
+-->    
+        
+        
+        <option name="count">25</option>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+      </table>
+    </panel>
+  </row>
+</form>
