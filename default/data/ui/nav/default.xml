@@ -1,0 +1,11 @@
+<nav search_view="search" color="#65A637">
+  <view name="search" default='true' />
+  <view name="data_models" />
+  <view name="reports" />
+  <view name="alerts" />
+  <view name="dashboards" />
+  <collection label="MineMeld">
+      <view name="ti_center" />
+      <view name="ti_search" />
+  </collection>
+</nav>
