@@ -7,5 +7,6 @@
   <collection label="MineMeld">
       <view name="ti_center" />
       <view name="ti_search" />
+      <view name="ti_ioc_stats" />
   </collection>
 </nav>
